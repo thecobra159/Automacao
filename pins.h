@@ -13,11 +13,14 @@
 
 //GENERAL
 #define ENABLE GPIO_PORTA_DATA_R ^= (1 << 6)
+#define EEPROM_SUCCESS       0
+#define EEPROM_REBOOT        1
+#define EEPROM_ERROR         2
+#define EEPROM_EESUPP_START  0x00000001  // Start Erase
 
 //LCD
 #define RS          (1 << 5)    //PA5
 #define EN          (1 << 6)    //PA6
-
 
 #define DB0         (1 << 0)    //PB0
 #define DB1         (1 << 1)    //PB1

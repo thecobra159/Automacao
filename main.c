@@ -11,8 +11,16 @@ void main(void) {
     SYSCTL_RCGCGPIO_R = SYSCTL_RCGC2_GPIOA | SYSCTL_RCGC2_GPIOB | SYSCTL_RCGC2_GPIOD | SYSCTL_RCGC2_GPIOE | SYSCTL_RCGC2_GPIOF;
 
     unlock_gpios();
-
     config_lcd();
+
+    setup_pwm();
+    init_pwm0(50);
+    delay_ms(20000);
+    init_pwm1(50);
+    delay_ms(20000);
+    init_pwm2(10);
+    delay_ms(20000);
+    init_pwm3(99);
 
     while(1) {
         write_lcd("  CHOOSE A LED  <-      1     ->");
