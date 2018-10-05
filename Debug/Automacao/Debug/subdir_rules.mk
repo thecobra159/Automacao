@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-USER_OBJS :=
+SHELL = cmd.exe
 
-LIBS := -llibc.a
+# Each subdirectory must supply rules for building sources it contributes
 

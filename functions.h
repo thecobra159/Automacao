@@ -29,6 +29,15 @@ void init_pwm1 (int percent);
 void init_pwm2 (int percent);
 void init_pwm3 (int percent);
 
+//EEPROM
+unsigned long init_EEPROM(void);
+void write_EEPROM(unsigned char block, unsigned char offset, unsigned int *data);
+unsigned long read_EEPROM(unsigned char block, unsigned char offset);
+
+//INTERRUPTION
+void setup_nvic(void);
+void setup_portD(void);
+void clicked_btn(void);
 
 
 #endif /* FUNCTIONS_H_ */
