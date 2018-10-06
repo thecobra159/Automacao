@@ -12,8 +12,11 @@
 #include "pins.h"
 
 void main(void);
-
 void unlock_gpios(void);
+void delay_us (int n);
+void update_menu1(int coxao);
+void update_menu2(int coxao2);
+void update_menu3(int coxao3, int cont);
 
 //LCD
 void delay_ms(int n);

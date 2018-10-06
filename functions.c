@@ -15,10 +15,59 @@ void delay_ms(int n) {
         for (j = 0; j < 3; j++) { }
 }
 
+void delay_us (int n) {
+    int i, j;
+    for(i = 0; i < n; i++) {
+        for(j = 0; j < 1600; j++){ }
+    }
+}
+
 void enable_pulse(void) {
     ENABLE;
     delay_ms(10000);
     ENABLE;
+}
+
+void update_menu1(int coxao){
+    switch (coxao){
+        case 1:
+            write_lcd("  CHOOSE A LED  <-      1     ->");
+            break;
+        case 2:
+            write_lcd("  CHOOSE A LED  <-      2     ->");
+            break;
+        case 3:
+            write_lcd("  CHOOSE A LED  <-      3     ->");
+            break;
+        case 4:
+            write_lcd("  CHOOSE A LED  <-      4     ->");
+            break;
+    }
+}
+
+void update_menu2(int coxao2){
+    switch (coxao2){
+        case 1:
+            write_lcd("  CHOOSE A MODE  <-    PWM     ->");
+            break;
+        case 2:
+            write_lcd("  CHOOSE A MODE  <-    PIS     ->");
+            break;
+    }
+}
+
+void update_menu3(int coxao3, cont){
+    char lcd_text[31];
+    switch (coxao3){
+        case 1:
+            sprintf(lcd_text, "PWM %d", cont);
+            write_lcd(lcd_text);
+            break;
+        case 2:
+            sprintf(lcd_text, "PIS %d", cont);
+            write_lcd(lcd_text);
+            break;
+    }
 }
 
 //LCD
@@ -266,18 +315,18 @@ void setup_nvic(void) {
 }
 
 void setup_portD(void) {
-    GPIO_PORTD_DIR_R    = ~btn_plus | ~btn_enter | ~btn_minus;
+    GPIO_PORTD_DIR_R    = (0 << 2) | (0 << 3) | (0 << 7);
     GPIO_PORTD_RIS_R    = 0x00;
     GPIO_PORTD_PDR_R    = btn_plus | btn_enter | btn_minus;
     GPIO_PORTD_IS_R     = 0x00;                                 //Define sensibilidade do botão - 0 borda - 1 sinal continuo
     GPIO_PORTD_IEV_R    = 0x00;                                 //Define evento - 0 descida | baixo - 1 subida | alto
-    GPIO_PORTD_IBE_R    = 0x01;                                 //Define inten por ambas as bordas
-    GPIO_PORTD_IM_R     = btn_plus | btn_enter | btn_minus;  //Habilita inten no pino
+    GPIO_PORTD_IBE_R    = 0x00;                                 //Define inten por ambas as bordas
+    GPIO_PORTD_IM_R     = btn_plus | btn_enter | btn_minus;     //Habilita inten no pino
     GPIO_PORTD_DEN_R    = btn_plus | btn_enter | btn_minus;
 }
 
 void clicked_btn(void) {
-    delay_ms(20);
+    delay_us(20);
 
     if((GPIO_PORTA_RIS_R & btn_plus) == btn_plus) {
         write_lcd("mais pressionado caralho");
