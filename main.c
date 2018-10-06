@@ -13,18 +13,21 @@ void main(void) {
     unlock_gpios();
     config_lcd();
 
+    setup_nvic();
+    setup_portD();
+
     setup_pwm();
-    init_pwm0(50);
+    init_pwm0(25);
     delay_ms(20000);
     init_pwm1(50);
     delay_ms(20000);
-    init_pwm2(10);
+    init_pwm2(75);
     delay_ms(20000);
     init_pwm3(99);
 
     while(1) {
-        write_lcd("  CHOOSE A LED  <-      1     ->");
-        delay_ms(100000);
+//        write_lcd("  CHOOSE A LED  <-      1     ->");
+//        delay_ms(100000);
     }
 
 }

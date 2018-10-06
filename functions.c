@@ -126,11 +126,11 @@ void setup_pwm() {
     GPIO_PORTE_PCTL_R  |= GPIO_PCTL_PE4_M1PWM2 | GPIO_PCTL_PE5_M0PWM5;
     delay_ms(20000);
     //Habilita digitalmente os pinos
-    GPIO_PORTE_DEN_R    |=  (1 << 4) | (1 << 5);
+    GPIO_PORTE_DEN_R   |=  (1 << 4) | (1 << 5);
     delay_ms(20000);
 
     //Ativa o módulo de PWM 0 e 1
-    SYSCTL_RCGCPWM_R    |= (1 << 0) | (1 << 1);
+    SYSCTL_RCGCPWM_R   |= (1 << 0) | (1 << 1);
     delay_ms(20000);
 }
 
@@ -139,16 +139,16 @@ void init_pwm0 (int percent) {
     PWM1_2_GENB_R |= 0xC08;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
-    PWM1_2_LOAD_R = 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
+    PWM1_2_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
     delay_ms(20000);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM1_2_CMPB_R = (1600 * percent) / 100;
+    PWM1_2_CMPB_R |= (1600 * percent) / 100;
     delay_ms(20000);
     //Ativa o controle do elemento 0 do PWM1
-    PWM1_2_CTL_R |= (1 << 0);
+    PWM1_2_CTL_R  |= (1 << 0);
     delay_ms(20000);
     //Inicializa o PWM1 - Gerador 2
-    PWM1_ENABLE_R = (1 << 5);
+    PWM1_ENABLE_R |= (1 << 5);
     delay_ms(20000);
 }
 
@@ -157,16 +157,16 @@ void init_pwm1 (int percent) {
     PWM1_3_GENA_R |= 0x0C8;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
-    PWM1_3_LOAD_R = 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
+    PWM1_3_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
     delay_ms(20000);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM1_3_CMPA_R = (1600 * percent) / 100;
+    PWM1_3_CMPA_R |= (1600 * percent) / 100;
     delay_ms(20000);
     //Ativa o controle do elemento 0 do PWM1
     PWM1_3_CTL_R |= (1 << 0);
     delay_ms(20000);
     //Inicializa o PWM1 - Gerador 3
-    PWM1_ENABLE_R = (1 << 6);
+    PWM1_ENABLE_R |= (1 << 6);
     delay_ms(20000);
 }
 
@@ -175,7 +175,7 @@ void init_pwm2 (int percent) {
     PWM1_1_GENA_R |= 0x0C8;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
-    PWM1_1_LOAD_R = 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
+    PWM1_1_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
     delay_ms(20000);
     //Valor da porcentagem do PWM, em ciclos de clock
     PWM1_1_CMPA_R |= (1600 * percent) / 100;
@@ -184,7 +184,7 @@ void init_pwm2 (int percent) {
     PWM1_1_CTL_R |= (1 << 0);
     delay_ms(20000);
     //Inicializa o PWM1 - Gerador 1
-    PWM1_ENABLE_R = (1 << 2);
+    PWM1_ENABLE_R |= (1 << 2);
     delay_ms(20000);
 }
 
@@ -193,16 +193,16 @@ void init_pwm3 (int percent) {
     PWM0_2_GENB_R |= 0xC08;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
-    PWM0_2_LOAD_R = 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
+    PWM0_2_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
     delay_ms(20000);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM0_2_CMPB_R = (1600 * percent) / 100;
+    PWM0_2_CMPB_R |= (1600 * percent) / 100;
     delay_ms(20000);
     //Ativa o controle do elemento 0 do PWM1
     PWM0_2_CTL_R |= (1 << 0);
     delay_ms(20000);
     //Inicializa o PWM0 - Gerador 2
-    PWM0_ENABLE_R = (1 << 5);
+    PWM0_ENABLE_R |= (1 << 5);
     delay_ms(20000);
 }
 
@@ -256,24 +256,40 @@ unsigned long read_EEPROM(unsigned char block, unsigned char offset){
     return EEPROM_EERDWR_R;
 }
 
+//INTERRUPTION
 void setup_nvic(void) {
     NVIC_ST_CTRL_R      = 0x00;                       //Desligando a NVIC para configuração
     NVIC_ST_RELOAD_R    = 8000000;                    //Setando o tempo da NVIC
     NVIC_ST_CURRENT_R   = 0;                          //Inicializando a NVIC em 0
-    NVIC_ST_CTRL_R      = 0x07;                       //Ligando a NVIC
+    //NVIC_ST_CTRL_R      = 0x07;                       //Ligando a NVIC
     NVIC_EN0_R          = SYSCTL_RCGC2_GPIOD;         //habilita inten do portA-C-D
 }
 
 void setup_portD(void) {
     GPIO_PORTD_DIR_R    = ~btn_plus | ~btn_enter | ~btn_minus;
     GPIO_PORTD_RIS_R    = 0x00;
-    GPIO_PORTD_PUR_R    = btn_plus | btn_enter | btn_minus;
+    GPIO_PORTD_PDR_R    = btn_plus | btn_enter | btn_minus;
     GPIO_PORTD_IS_R     = 0x00;                                 //Define sensibilidade do botão - 0 borda - 1 sinal continuo
     GPIO_PORTD_IEV_R    = 0x00;                                 //Define evento - 0 descida | baixo - 1 subida | alto
     GPIO_PORTD_IBE_R    = 0x01;                                 //Define inten por ambas as bordas
     GPIO_PORTD_IM_R     = btn_plus | btn_enter | btn_minus;  //Habilita inten no pino
     GPIO_PORTD_DEN_R    = btn_plus | btn_enter | btn_minus;
 }
-void clicked_btn(void) {
 
+void clicked_btn(void) {
+    delay_ms(20);
+
+    if((GPIO_PORTA_RIS_R & btn_plus) == btn_plus) {
+        write_lcd("mais pressionado caralho");
+    }
+
+    if((GPIO_PORTA_RIS_R & btn_minus) == btn_minus) {
+        write_lcd("menos pressionado caralho");
+    }
+
+    if((GPIO_PORTA_RIS_R & btn_enter) == btn_enter) {
+        write_lcd("enter pressionado caralho");
+    }
+
+    GPIO_PORTD_ICR_R |= btn_plus | btn_enter | btn_minus;
 }
