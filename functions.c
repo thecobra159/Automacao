@@ -56,7 +56,7 @@ void update_menu2(int coxao2){
     }
 }
 
-void update_menu3(int coxao3, cont){
+/*void update_menu3(int coxao3, cont){
     char lcd_text[31];
     switch (coxao3){
         case 1:
@@ -68,7 +68,7 @@ void update_menu3(int coxao3, cont){
             write_lcd(lcd_text);
             break;
     }
-}
+}*/
 
 //LCD
 void cmd_lcd(unsigned char c, int index) {
