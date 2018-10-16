@@ -56,7 +56,7 @@ void update_menu2(int coxao2){
     }
 }
 
-/*void update_menu3(int coxao3, cont){
+void update_menu3(int coxao3, int cont){
     char lcd_text[31];
     switch (coxao3){
         case 1:
@@ -68,7 +68,44 @@ void update_menu2(int coxao2){
             write_lcd(lcd_text);
             break;
     }
-}*/
+}
+
+void set_pwm_pis(int pwm, int pis){
+    int var;
+    for (var = 0; var < 4; ++var) {
+        if (pwm[var] == 0){
+            switch(var){
+                case 0:
+                    init_pis0(pis[0]);
+                    break;
+                case 1:
+                    init_pis1(pis[1]);
+                    break;
+                case 2:
+                    init_pis2(pis[2]);
+                    break;
+                case 3:
+                    init_pis3(pis[3]);
+                    break;
+            }
+        } else {
+            switch(var){
+                case 0:
+                    init_pwm0(pwm[0]);
+                    break;
+                case 1:
+                    init_pwm1(pwm[1]);
+                    break;
+                case 2:
+                    init_pwm2(pwm[2]);
+                    break;
+                case 3:
+                    init_pwm3(pwm[3]);
+                    break;
+            }
+        }
+    }
+}
 
 //LCD
 void cmd_lcd(unsigned char c, int index) {
@@ -341,4 +378,21 @@ void clicked_btn(void) {
     }
 
     GPIO_PORTD_ICR_R |= btn_plus | btn_enter | btn_minus;
+}
+
+//PIS
+void init_pis0(int internal){
+
+}
+
+void init_pis1(int internal){
+
+}
+
+void init_pis2(int internal){
+
+}
+
+void init_pis3(int internal){
+
 }
