@@ -44,4 +44,10 @@ void setup_nvic(void);
 void setup_portD(void);
 void clicked_btn(void);
 
+//PIS
+void init_pis0(int internal);
+void init_pis1(int internal);
+void init_pis2(int internal);
+void init_pis3(int internal);
+
 #endif /* FUNCTIONS_H_ */
