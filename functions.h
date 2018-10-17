@@ -11,9 +11,14 @@
 #include "tm4c123gh6pm.h"
 #include "pins.h"
 
+//GENERAL
 void main(void);
-
 void unlock_gpios(void);
+void delay_us (int n);
+void update_menu1(int coxao);
+void update_menu2(int coxao2);
+void update_menu3(int coxao3, int cont);
+void set_pwm_pis(int pwm[4], int pis[4]);
 
 //LCD
 void delay_ms(int n);
@@ -39,5 +44,10 @@ void setup_nvic(void);
 void setup_portD(void);
 void clicked_btn(void);
 
+//PIS
+void init_pis0(int internal);
+void init_pis1(int internal);
+void init_pis2(int internal);
+void init_pis3(int internal);
 
 #endif /* FUNCTIONS_H_ */

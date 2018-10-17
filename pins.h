@@ -40,6 +40,6 @@
 //BUTTONS
 #define btn_plus    (1 << 2)    //PD2
 #define btn_enter   (1 << 3)    //PD3
-#define btn_minus   (1 << 7)    //PD7
+#define btn_minus   (1 << 2)    //PA2
 
 #endif /* PINS_H_ */
