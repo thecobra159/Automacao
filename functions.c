@@ -48,10 +48,10 @@ void update_menu1(int coxao){
 void update_menu2(int coxao2){
     switch (coxao2){
         case 1:
-            write_lcd("  CHOOSE A MODE  <-    PWM     ->");
+            write_lcd(" CHOOSE A MODE  <-    PWM     ->");
             break;
         case 2:
-            write_lcd("  CHOOSE A MODE  <-    PIS     ->");
+            write_lcd(" CHOOSE A MODE  <-    PIS     ->");
             break;
     }
 }
@@ -60,17 +60,17 @@ void update_menu3(int coxao3, int cont){
     char lcd_text[31];
     switch (coxao3){
         case 1:
-            sprintf(lcd_text, "PWM %d", cont);
+            sprintf(lcd_text, "PWM -> %d", cont);
             write_lcd(lcd_text);
             break;
         case 2:
-            sprintf(lcd_text, "PIS %d", cont);
+            sprintf(lcd_text, "PIS -> %d", cont);
             write_lcd(lcd_text);
             break;
     }
 }
 
-void set_pwm_pis(int pwm, int pis){
+void set_pwm_pis(int pwm[4], int pis[4]){
     int var;
     for (var = 0; var < 4; ++var) {
         if (pwm[var] == 0){
@@ -366,15 +366,15 @@ void clicked_btn(void) {
     delay_us(20);
 
     if((GPIO_PORTA_RIS_R & btn_plus) == btn_plus) {
-        write_lcd("mais pressionado caralho");
+        write_lcd("mais pressionado coroi");
     }
 
     if((GPIO_PORTA_RIS_R & btn_minus) == btn_minus) {
-        write_lcd("menos pressionado caralho");
+        write_lcd("menos pressionado coroi");
     }
 
     if((GPIO_PORTA_RIS_R & btn_enter) == btn_enter) {
-        write_lcd("enter pressionado caralho");
+        write_lcd("enter pressionado coroi");
     }
 
     GPIO_PORTD_ICR_R |= btn_plus | btn_enter | btn_minus;
@@ -382,17 +382,50 @@ void clicked_btn(void) {
 
 //PIS
 void init_pis0(int internal){
+    int contInt = 0;
+    while(contInt < internal) {
+        init_pwm0(99);
+        delay_ms(200);
+        init_pwm0(0);
+        delay_ms(200);
 
+        contInt++;
+    }
 }
 
 void init_pis1(int internal){
+    int contInt = 0;
+    while(contInt < internal) {
+        init_pwm1(99);
+        delay_ms(internal);
+        init_pwm1(0);
+        delay_ms(internal);
 
+        contInt++;
+    }
 }
 
 void init_pis2(int internal){
+    int contInt = 0;
+    while(contInt < internal) {
+        init_pwm2(99);
+        delay_ms(internal);
+        init_pwm2(0);
+        delay_ms(internal);
 
+        contInt++;
+    }
 }
 
 void init_pis3(int internal){
+    int contInt = 0;
+    // pura preguiça de configurar e desconfigurar o pwm hehehe
+    while(contInt < internal) {
+        init_pwm3(99);
+        delay_ms(internal);
+        init_pwm3(0);
+        delay_ms(internal);
 
+        contInt++;
+    }
 }

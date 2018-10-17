@@ -31,21 +31,21 @@ void main(void) {
     setup_portD();*/
 
     setup_pwm();
-    init_pwm0(25);
-    delay_ms(20000);
-    init_pwm1(50);
-    delay_ms(20000);
-    init_pwm2(75);
-    delay_ms(20000);
-    init_pwm3(99);
-
-    init_pwm0(0);
-    delay_ms(20000);
-    init_pwm1(0);
-    delay_ms(20000);
-    init_pwm2(0);
-    delay_ms(20000);
-    init_pwm3(0);
+//    init_pwm0(25);
+//    delay_ms(20000);
+//    init_pwm1(50);
+//    delay_ms(20000);
+//    init_pwm2(75);
+//    delay_ms(20000);
+//    init_pwm3(99);
+//
+//    init_pwm0(0);
+//    delay_ms(20000);
+//    init_pwm1(0);
+//    delay_ms(20000);
+//    init_pwm2(0);
+//    delay_ms(20000);
+//    init_pwm3(0);
 
     write_lcd("  CHOOSE A LED  <-      1     ->");
     while(1) {
@@ -103,7 +103,7 @@ void main(void) {
                     delay_us(20);
                     write_lcd("   NEW MENU   ");
                     update_menu3(option_menu2, cont);
-                    menu = 2;
+                    menu = 3;
                 }
                 break;
             case 3:
@@ -129,14 +129,17 @@ void main(void) {
                     delay_us(20);
                     switch (option_menu2) {
                         case 1:
-                            PWM[option_menu] = cont;
+                            PWM[option_menu-1] = cont;
+                            PIS[option_menu-1] = 0;
                             break;
                         case 2:
-                            PIS[option_menu] = cont;
+                            PWM[option_menu-1] = 0;
+                            PIS[option_menu-1] = cont;
                             break;
                     }
                     menu = 1;
-                    set_pwm_pis(int PWM, int PIS);
+                    cont = 0;
+                    set_pwm_pis(PWM, PIS);
                     update_menu1(option_menu);
                 }
                 break;
