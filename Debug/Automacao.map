@@ -1,7 +1,7 @@
 ******************************************************************************
-                  TI ARM Linker PC v18.1.3                     
+                  TI ARM Linker PC v18.1.2                     
 ******************************************************************************
->> Linked Fri Oct  5 02:55:38 2018
+>> Linked Fri Oct  5 17:58:19 2018
 
 OUTPUT FILE NAME:   <Automacao.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000761
@@ -12,7 +12,9 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   FLASH                 00000000   00040000  000007a4  0003f85c  R  X
+  FLASH                 00000000   00040000  00000000  00040000  R  X
   SRAM                  20000000   00008000  00000200  00007e00  RW X
+  SRAM                  20000000   00008000  00000000  00008000  RW X
 
 
 SEGMENT ALLOCATION MAP
@@ -51,6 +53,11 @@ section   page    origin      length       input sections
                   20000000    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
                   20000004    000001fc     --HOLE--
 
+.cinit     0    00000000    00000000     UNINITIALIZED
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
 MODULE SUMMARY
 
        Module                         code   ro data   rw data
@@ -62,7 +69,7 @@ MODULE SUMMARY
     +--+------------------------------+------+---------+---------+
        Total:                         1280   620       0      
                                                               
-    C:\ti\ccsv8\tools\compiler\ti-cgt-arm_18.1.3.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+    C:\ti\ccsv8\tools\compiler\ti-cgt-arm_18.1.2.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
        boot_cortex_m.c.obj            48     0         0      
        exit.c.obj                     4      0         0      
        pre_init.c.obj                 4      0         0      

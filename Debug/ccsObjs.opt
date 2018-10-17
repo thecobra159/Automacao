@@ -1,1 +1,1 @@
-"./functions.obj" "./main.obj" "./tm4c123gh6pm_startup_ccs.obj" "../tm4c123gh6pm.cmd" -llibc.a 
+"./functions.obj" "./main.obj" "./tm4c123gh6pm_startup_ccs.obj" "../Automacao/Debug/main.obj" "../Automacao/Debug/tm4c123gh6pm_startup_ccs.obj" "./Automacao/main.obj" "./Automacao/tm4c123gh6pm_startup_ccs.obj" "../tm4c123gh6pm.cmd" "../Automacao/tm4c123gh6pm.cmd" -llibc.a 

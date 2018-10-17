@@ -28,85 +28,6 @@ void enable_pulse(void) {
     ENABLE;
 }
 
-void update_menu1(int coxao){
-    switch (coxao){
-        case 1:
-            write_lcd("  CHOOSE A LED  <-      1     ->");
-            break;
-        case 2:
-            write_lcd("  CHOOSE A LED  <-      2     ->");
-            break;
-        case 3:
-            write_lcd("  CHOOSE A LED  <-      3     ->");
-            break;
-        case 4:
-            write_lcd("  CHOOSE A LED  <-      4     ->");
-            break;
-    }
-}
-
-void update_menu2(int coxao2){
-    switch (coxao2){
-        case 1:
-            write_lcd(" CHOOSE A MODE  <-    PWM     ->");
-            break;
-        case 2:
-            write_lcd(" CHOOSE A MODE  <-    PIS     ->");
-            break;
-    }
-}
-
-void update_menu3(int coxao3, int cont){
-    char lcd_text[31];
-    switch (coxao3){
-        case 1:
-            sprintf(lcd_text, "PWM -> %d", cont);
-            write_lcd(lcd_text);
-            break;
-        case 2:
-            sprintf(lcd_text, "PIS -> %d", cont);
-            write_lcd(lcd_text);
-            break;
-    }
-}
-
-void set_pwm_pis(int pwm[4], int pis[4]){
-    int var;
-    for (var = 0; var < 4; ++var) {
-        if (pwm[var] == 0){
-            switch(var){
-                case 0:
-                    init_pis0(pis[0]);
-                    break;
-                case 1:
-                    init_pis1(pis[1]);
-                    break;
-                case 2:
-                    init_pis2(pis[2]);
-                    break;
-                case 3:
-                    init_pis3(pis[3]);
-                    break;
-            }
-        } else {
-            switch(var){
-                case 0:
-                    init_pwm0(pwm[0]);
-                    break;
-                case 1:
-                    init_pwm1(pwm[1]);
-                    break;
-                case 2:
-                    init_pwm2(pwm[2]);
-                    break;
-                case 3:
-                    init_pwm3(pwm[3]);
-                    break;
-            }
-        }
-    }
-}
-
 //LCD
 void cmd_lcd(unsigned char c, int index) {
     if (index == 0) {
@@ -143,7 +64,7 @@ void config_lcd(void) {
        //garante que tem 0
        GPIO_PORTB_DATA_R = 0x00;
        GPIO_PORTA_DATA_R = 0x00;
-       // direção dos pinos
+       // direÃ§Ã£o dos pinos
        GPIO_PORTA_DIR_R |= 1<<5 | 1<<6 | 1<<7;
        GPIO_PORTB_DIR_R |= 0xFF; // todos
        // Habilita os pinos
@@ -195,33 +116,28 @@ void config_lcd(void) {
 
 //PWM
 void setup_pwm() {
-    //Habilita função alternativa dos PF1 - PF2
+    //Habilita funÃ§Ã£o alternativa dos PF1 - PF2
     GPIO_PORTF_AFSEL_R |= (1 << 1) | (1 << 2);
     delay_ms(20000);
-    //Definir que a função alternativa é PWM
+    //Definir que a funÃ§Ã£o alternativa Ã© PWM
     GPIO_PORTF_PCTL_R  |= GPIO_PCTL_PF1_M1PWM5 | GPIO_PCTL_PF2_M1PWM6;
     delay_ms(20000);
     //Habilita digitalmente os pinos
     GPIO_PORTF_DEN_R    |= (1 << 1) | (1 << 2);
     delay_ms(20000);
 
-    //Habilita função alternativa dos PE4 - PE5
+    //Habilita funÃ§Ã£o alternativa dos PE4 - PE5
     GPIO_PORTE_AFSEL_R |= (1 << 4) | (1 << 5);
     delay_ms(20000);
-    //Definir que a função alternativa é PWM
+    //Definir que a funÃ§Ã£o alternativa Ã© PWM
     GPIO_PORTE_PCTL_R  |= GPIO_PCTL_PE4_M1PWM2 | GPIO_PCTL_PE5_M0PWM5;
     delay_ms(20000);
     //Habilita digitalmente os pinos
-    GPIO_PORTE_DEN_R   |=  (1 << 4) | (1 << 5);
-    delay_ms(20000);
-
-    //Ativa o módulo de PWM 0 e 1
-    SYSCTL_RCGCPWM_R   |= (1 << 0) | (1 << 1);
     delay_ms(20000);
 }
 
 void init_pwm0 (int percent) {
-    //Nível baixo em LOAD / Nível alto em CMPA
+    //NÃ­vel baixo em LOAD / NÃ­vel alto em CMPA
     PWM1_2_GENB_R |= 0xC08;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
@@ -239,7 +155,7 @@ void init_pwm0 (int percent) {
 }
 
 void init_pwm1 (int percent) {
-    //Nível baixo em LOAD / Nível alto em CMPA
+    //NÃ­vel baixo em LOAD / NÃ­vel alto em CMPA
     PWM1_3_GENA_R |= 0x0C8;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
@@ -257,7 +173,7 @@ void init_pwm1 (int percent) {
 }
 
 void init_pwm2 (int percent) {
-    //Nível baixo em LOAD / Nível alto em CMPA
+    //NÃ­vel baixo em LOAD / NÃ­vel alto em CMPA
     PWM1_1_GENA_R |= 0x0C8;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
@@ -275,7 +191,7 @@ void init_pwm2 (int percent) {
 }
 
 void init_pwm3 (int percent) {
-    //Nível baixo em LOAD / Nível alto em CMPA
+    //NÃ­vel baixo em LOAD / NÃ­vel alto em CMPA
     PWM0_2_GENB_R |= 0xC08;
     delay_ms(20000);
     //Valor da frequencia do PWM, em ciclos de clock
@@ -342,90 +258,9 @@ unsigned long read_EEPROM(unsigned char block, unsigned char offset){
     return EEPROM_EERDWR_R;
 }
 
-//INTERRUPTION
 void setup_nvic(void) {
-    NVIC_ST_CTRL_R      = 0x00;                       //Desligando a NVIC para configuração
+    NVIC_ST_CTRL_R      = 0x00;                       //Desligando a NVIC para configuraÃ§Ã£o
     NVIC_ST_RELOAD_R    = 8000000;                    //Setando o tempo da NVIC
     NVIC_ST_CURRENT_R   = 0;                          //Inicializando a NVIC em 0
-    //NVIC_ST_CTRL_R      = 0x07;                       //Ligando a NVIC
     NVIC_EN0_R          = SYSCTL_RCGC2_GPIOD;         //habilita inten do portA-C-D
-}
-
-void setup_portD(void) {
-    GPIO_PORTD_DIR_R    = (0 << 2) | (0 << 3) | (0 << 7);
-    GPIO_PORTD_RIS_R    = 0x00;
-    GPIO_PORTD_PDR_R    = btn_plus | btn_enter | btn_minus;
-    GPIO_PORTD_IS_R     = 0x00;                                 //Define sensibilidade do botão - 0 borda - 1 sinal continuo
-    GPIO_PORTD_IEV_R    = 0x00;                                 //Define evento - 0 descida | baixo - 1 subida | alto
-    GPIO_PORTD_IBE_R    = 0x00;                                 //Define inten por ambas as bordas
-    GPIO_PORTD_IM_R     = btn_plus | btn_enter | btn_minus;     //Habilita inten no pino
-    GPIO_PORTD_DEN_R    = btn_plus | btn_enter | btn_minus;
-}
-
-void clicked_btn(void) {
-    delay_us(20);
-
-    if((GPIO_PORTA_RIS_R & btn_plus) == btn_plus) {
-        write_lcd("mais pressionado coroi");
-    }
-
-    if((GPIO_PORTA_RIS_R & btn_minus) == btn_minus) {
-        write_lcd("menos pressionado coroi");
-    }
-
-    if((GPIO_PORTA_RIS_R & btn_enter) == btn_enter) {
-        write_lcd("enter pressionado coroi");
-    }
-
-    GPIO_PORTD_ICR_R |= btn_plus | btn_enter | btn_minus;
-}
-
-//PIS
-void init_pis0(int internal){
-    int contInt = 0;
-    while(contInt < internal) {
-        init_pwm0(99);
-        delay_ms(200);
-        init_pwm0(0);
-        delay_ms(200);
-
-        contInt++;
-    }
-}
-
-void init_pis1(int internal){
-    int contInt = 0;
-    while(contInt < internal) {
-        init_pwm1(99);
-        delay_ms(internal);
-        init_pwm1(0);
-        delay_ms(internal);
-
-        contInt++;
-    }
-}
-
-void init_pis2(int internal){
-    int contInt = 0;
-    while(contInt < internal) {
-        init_pwm2(99);
-        delay_ms(internal);
-        init_pwm2(0);
-        delay_ms(internal);
-
-        contInt++;
-    }
-}
-
-void init_pis3(int internal){
-    int contInt = 0;
-    // pura preguiça de configurar e desconfigurar o pwm hehehe
-    while(contInt < internal) {
-        init_pwm3(99);
-        delay_ms(internal);
-        init_pwm3(0);
-        delay_ms(internal);
-
-        contInt++;
-    }
 }

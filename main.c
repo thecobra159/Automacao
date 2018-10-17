@@ -16,38 +16,6 @@ void main(void) {
 
     SYSCTL_RCGCGPIO_R |= SYSCTL_RCGC2_GPIOA | SYSCTL_RCGC2_GPIOB | SYSCTL_RCGC2_GPIOD | SYSCTL_RCGC2_GPIOE | SYSCTL_RCGC2_GPIOF;
 
-    GPIO_PORTD_DIR_R    = (0 << 2) | (0 << 3);
-    GPIO_PORTD_DEN_R    = (1 << 2) | (1 << 3);
-    GPIO_PORTD_DATA_R   = 0x00;
-
-    GPIO_PORTA_DIR_R    = (0 << 2);
-    GPIO_PORTA_DEN_R    = (1 << 2);
-    GPIO_PORTA_DATA_R   = 0x00;
-
-    unlock_gpios();
-    config_lcd();
-
-    /*setup_nvic();
-    setup_portD();*/
-
-    setup_pwm();
-//    init_pwm0(25);
-//    delay_ms(20000);
-//    init_pwm1(50);
-//    delay_ms(20000);
-//    init_pwm2(75);
-//    delay_ms(20000);
-//    init_pwm3(99);
-//
-//    init_pwm0(0);
-//    delay_ms(20000);
-//    init_pwm1(0);
-//    delay_ms(20000);
-//    init_pwm2(0);
-//    delay_ms(20000);
-//    init_pwm3(0);
-
-    write_lcd("  CHOOSE A LED  <-      1     ->");
     while(1) {
         switch (menu) {
             case 1:
