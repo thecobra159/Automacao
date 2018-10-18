@@ -74,7 +74,7 @@ void set_pwm_pis(int pwm[4], int pis[4]){
     int var;
     for (var = 0; var < 4; ++var) {
         if (pwm[var] == 0){
-            switch(var){
+             switch(var){
                 case 0:
                     init_pis0(pis[0]);
                     break;
@@ -223,73 +223,94 @@ void setup_pwm() {
 void init_pwm0 (int percent) {
     //Nível baixo em LOAD / Nível alto em CMPA
     PWM1_2_GENB_R |= 0xC08;
-    delay_ms(20000);
+    delay_us(200);
     //Valor da frequencia do PWM, em ciclos de clock
     PWM1_2_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
-    delay_ms(20000);
+    delay_us(200);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM1_2_CMPB_R |= (1600 * percent) / 100;
-    delay_ms(20000);
+    if (percent == 1) {
+        PWM1_2_CMPB_R = 0;
+        delay_us(200);
+    } else {
+        PWM1_2_CMPB_R |= (1600 * percent) / 100;
+        delay_us(200);
+    }
     //Ativa o controle do elemento 0 do PWM1
     PWM1_2_CTL_R  |= (1 << 0);
-    delay_ms(20000);
+    delay_us(200);
     //Inicializa o PWM1 - Gerador 2
     PWM1_ENABLE_R |= (1 << 5);
-    delay_ms(20000);
+
+    delay_us(200);
 }
 
 void init_pwm1 (int percent) {
     //Nível baixo em LOAD / Nível alto em CMPA
     PWM1_3_GENA_R |= 0x0C8;
-    delay_ms(20000);
+    delay_us(200);
     //Valor da frequencia do PWM, em ciclos de clock
     PWM1_3_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
-    delay_ms(20000);
+    delay_us(200);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM1_3_CMPA_R |= (1600 * percent) / 100;
-    delay_ms(20000);
+    if(percent == 1) {
+        PWM1_3_CMPA_R = 0;
+        delay_us(200);
+    } else {
+        PWM1_3_CMPA_R |= (1600 * percent) / 100;
+        delay_us(200);
+    }
     //Ativa o controle do elemento 0 do PWM1
     PWM1_3_CTL_R |= (1 << 0);
-    delay_ms(20000);
+    delay_us(200);
     //Inicializa o PWM1 - Gerador 3
     PWM1_ENABLE_R |= (1 << 6);
-    delay_ms(20000);
+    delay_us(200);
 }
 
 void init_pwm2 (int percent) {
     //Nível baixo em LOAD / Nível alto em CMPA
     PWM1_1_GENA_R |= 0x0C8;
-    delay_ms(20000);
+    delay_us(200);
     //Valor da frequencia do PWM, em ciclos de clock
     PWM1_1_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
-    delay_ms(20000);
+    delay_us(200);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM1_1_CMPA_R |= (1600 * percent) / 100;
-    delay_ms(20000);
+    if(percent == 1) {
+        PWM1_1_CMPA_R = 0;
+        delay_us(200);
+    } else {
+        PWM1_1_CMPA_R |= (1600 * percent) / 100;
+        delay_us(200);
+    }
     //Ativa o controle do elemento 0 do PWM1
     PWM1_1_CTL_R |= (1 << 0);
-    delay_ms(20000);
+    delay_us(200);
     //Inicializa o PWM1 - Gerador 1
     PWM1_ENABLE_R |= (1 << 2);
-    delay_ms(20000);
+    delay_us(200);
 }
 
 void init_pwm3 (int percent) {
     //Nível baixo em LOAD / Nível alto em CMPA
     PWM0_2_GENB_R |= 0xC08;
-    delay_ms(20000);
+    delay_us(200);
     //Valor da frequencia do PWM, em ciclos de clock
     PWM0_2_LOAD_R |= 1600; //1/[(62,5*10^-9) * (10*10^3)] = 1600
-    delay_ms(20000);
+    delay_us(200);
     //Valor da porcentagem do PWM, em ciclos de clock
-    PWM0_2_CMPB_R |= (1600 * percent) / 100;
-    delay_ms(20000);
+    if(percent == 1) {
+        PWM0_2_CMPB_R = 0;
+        delay_us(200);
+    } else {
+        PWM0_2_CMPB_R |= (1600 * percent) / 100;
+        delay_us(200);
+    }
     //Ativa o controle do elemento 0 do PWM1
     PWM0_2_CTL_R |= (1 << 0);
-    delay_ms(20000);
+    delay_us(200);
     //Inicializa o PWM0 - Gerador 2
     PWM0_ENABLE_R |= (1 << 5);
-    delay_ms(20000);
+    delay_us(200);
 }
 
 //EEPROM
@@ -384,10 +405,14 @@ void clicked_btn(void) {
 void init_pis0(int internal){
     int contInt = 0;
     while(contInt < internal) {
+        init_pwm0(1);
+//        GPIO_PORTF_DATA_R = LED0;
+        delay_us(internal);
+//        GPIO_PORTF_DATA_R = ~LED0;
         init_pwm0(99);
-        delay_ms(200);
-        init_pwm0(0);
-        delay_ms(200);
+        delay_us(internal);
+        init_pwm0(1);
+        delay_us(internal);
 
         contInt++;
     }
@@ -396,10 +421,14 @@ void init_pis0(int internal){
 void init_pis1(int internal){
     int contInt = 0;
     while(contInt < internal) {
+        init_pwm1(1);
+//        GPIO_PORTF_DATA_R = LED0;
+        delay_us(internal);
+//        GPIO_PORTF_DATA_R = ~LED0;
         init_pwm1(99);
-        delay_ms(internal);
-        init_pwm1(0);
-        delay_ms(internal);
+        delay_us(internal);
+        init_pwm1(1);
+        delay_us(internal);
 
         contInt++;
     }
@@ -408,10 +437,14 @@ void init_pis1(int internal){
 void init_pis2(int internal){
     int contInt = 0;
     while(contInt < internal) {
+        init_pwm2(1);
+//        GPIO_PORTF_DATA_R = LED0;
+        delay_us(internal);
+//        GPIO_PORTF_DATA_R = ~LED0;
         init_pwm2(99);
-        delay_ms(internal);
-        init_pwm2(0);
-        delay_ms(internal);
+        delay_us(internal);
+        init_pwm2(1);
+        delay_us(internal);
 
         contInt++;
     }
@@ -421,10 +454,14 @@ void init_pis3(int internal){
     int contInt = 0;
     // pura preguiça de configurar e desconfigurar o pwm hehehe
     while(contInt < internal) {
+        init_pwm3(1);
+//        GPIO_PORTF_DATA_R = LED0;
+        delay_us(internal);
+//        GPIO_PORTF_DATA_R = ~LED0;
         init_pwm3(99);
-        delay_ms(internal);
-        init_pwm3(0);
-        delay_ms(internal);
+        delay_us(internal);
+        init_pwm3(1);
+        delay_us(internal);
 
         contInt++;
     }
